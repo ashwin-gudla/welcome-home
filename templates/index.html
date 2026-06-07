@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ala ashwinpuramuloo...</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div id="tulip-corners" class="tulip-corners" aria-hidden="true">
+    <div class="tulip-hanging tulip-hanging-left">
+      <div class="tulip-line tulip-line-18">{% for _ in range(17) %}<span>🌷</span>{% endfor %}</div>
+      <div class="tulip-line tulip-line-15">{% for _ in range(14) %}<span>🌷</span>{% endfor %}</div>
+      <div class="tulip-line tulip-line-10">{% for _ in range(10) %}<span>🌷</span>{% endfor %}</div>
+      <div class="tulip-line tulip-line-5">{% for _ in range(5) %}<span>🌷</span>{% endfor %}</div>
+    </div>
+    <div class="tulip-hanging tulip-hanging-right">
+      <div class="tulip-line tulip-line-5">{% for _ in range(5) %}<span>🌷</span>{% endfor %}</div>
+      <div class="tulip-line tulip-line-10">{% for _ in range(10) %}<span>🌷</span>{% endfor %}</div>
+      <div class="tulip-line tulip-line-15">{% for _ in range(14) %}<span>🌷</span>{% endfor %}</div>
+      <div class="tulip-line tulip-line-18">{% for _ in range(17) %}<span>🌷</span>{% endfor %}</div>
+    </div>
+  </div>
+
+  <main class="app">
+    <!-- PAGE 0: Welcome -->
+    <section id="page-welcome" class="page active">
+      <div class="glass-card welcome-card">
+        <div class="liquid-icon">🏡</div>
+        <h1 class="title">welcome to me home</h1>
+        <p class="subtitle">arey parledh maa ille anuko</p>
+        <button id="welcome-next-btn" type="button" class="btn btn-primary">enter</button>
+      </div>
+    </section>
+
+    <!-- PAGE 1: Face Recognition -->
+    <section id="page-face" class="page">
+      <div class="glass-card hero-card">
+        <div class="liquid-icon">🤨</div>
+        <h1 class="title">yor bhai? yonki bhai?</h1>
+        <p class="subtitle">please confirm your identity to continue</p>
+
+        {% if not has_varshini_photo %}
+        <div class="alert-bubble">
+          reference photo missing — add it to ImagesAttendance
+        </div>
+        {% endif %}
+
+        <div class="camera-wrap glass-inner">
+          <video id="webcam" autoplay playsinline muted></video>
+          <canvas id="capture-canvas" hidden></canvas>
+          <div id="camera-overlay" class="camera-overlay">
+            <div id="camera-loader" class="camera-loader hidden">
+              <span class="loader-dot"></span>
+              <span class="loader-dot"></span>
+              <span class="loader-dot"></span>
+            </div>
+            <button id="start-camera-btn" type="button" class="btn btn-camera">enable camera</button>
+          </div>
+          <div id="scan-ring" class="scan-ring hidden"></div>
+        </div>
+
+        <p id="face-message" class="message">tap enable camera to begin</p>
+
+        <button id="verify-btn" class="btn btn-primary" disabled>
+          verify
+        </button>
+        <button id="skip-face-btn" class="btn btn-secondary hidden" type="button">
+          continue without camera
+        </button>
+      </div>
+    </section>
+
+    <!-- PAGE 2: Quiz -->
+    <section id="page-quiz" class="page">
+      <div class="glass-card quiz-card">
+        <div id="hi-v-message" class="hi-v-message">hi v!</div>
+        <div id="quiz-content" class="quiz-content hidden">
+          <div class="liquid-icon">🤔</div>
+          <h2 class="title">quick check</h2>
+          <p class="subtitle">answer all 5 to unlock the fun</p>
+
+          <div class="score-pill">
+            score: <span id="quiz-score">0</span> / 5
+          </div>
+
+          <div class="progress-dots" id="progress-dots"></div>
+
+          <div id="question-area" class="question-area">
+            <p id="question-text" class="question-text"></p>
+            <input id="answer-input" class="input-bubble" type="text" placeholder="your answer..." autocomplete="off">
+            <p id="answer-feedback" class="feedback"></p>
+            <button id="submit-answer-btn" class="btn btn-primary">check answer</button>
+          </div>
+
+          <div id="quiz-fail" class="quiz-fail hidden">
+            <p class="fail-text">not quite — you need 5/5!</p>
+            <button id="retry-quiz-btn" class="btn btn-secondary">malli try chey</button>
+          </div>
+
+          <div id="quiz-pass" class="quiz-pass hidden">
+            <p class="pass-text">adhi atta! you're in 🥰</p>
+            <button id="enter-dashboard-btn" class="btn btn-primary">continue</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: whadowedo -->
+    <section id="page-planner" class="page">
+      <div class="glass-card planner-card">
+        <div class="liquid-icon">🫧</div>
+        <h2 class="title">whadowedo</h2>
+        <p class="subtitle">drag to reorder</p>
+
+        <ul id="activity-list" class="activity-list">
+          <li class="activity-item glass-chip" draggable="true" data-activity="movie">
+            <span class="chip-icon">🎬</span> movie
+          </li>
+          <li class="activity-item glass-chip" draggable="true" data-activity="dance">
+            <span class="chip-icon">💃</span> dance
+          </li>
+          <li class="activity-item glass-chip" draggable="true" data-activity="reels">
+            <span class="chip-icon">📱</span> reels
+          </li>
+          <li class="activity-item glass-chip" draggable="true" data-activity="cuddling">
+            <span class="chip-icon">🤗</span> cuddling
+          </li>
+          <li class="activity-item glass-chip" draggable="true" data-activity="so-much-cuddling">
+            <span class="chip-icon">💕</span> so v much cuddling
+          </li>
+          <li class="activity-item glass-chip" draggable="true" data-activity="suppai">
+            <span class="chip-icon">🥺</span> suppai
+          </li>
+        </ul>
+
+        <button id="planner-next-btn" class="btn btn-primary">next</button>
+      </div>
+    </section>
+
+    <!-- PAGE 4: Activity sequence -->
+    <section id="page-activities" class="page">
+      <div class="glass-card activity-card">
+        <div class="activity-header">
+          <span id="activity-step" class="step-badge">1 / 6</span>
+          <h2 id="activity-title" class="title"></h2>
+        </div>
+
+        <div id="activity-content" class="activity-content"></div>
+
+        <button id="activity-next-btn" class="btn btn-primary">next</button>
+      </div>
+    </section>
+
+    <!-- PAGE 5: Finale -->
+    <section id="page-finale" class="page">
+      <div class="glass-card finale-card">
+        <div class="liquid-icon big">🫶</div>
+        <h2 class="title">that's the plan</h2>
+        <p class="subtitle">hope u enjoy - wuv u!</p>
+        <button id="restart-btn" class="btn btn-secondary">start over<br>(aipoindhi free plan)</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Popup after successful verification -->
+  <div id="welcome-popup" class="popup-overlay hidden" role="dialog" aria-modal="true">
+    <div class="popup-card glass-card">
+      <p class="popup-text">ochindhayya vayyari!</p>
+      <button id="popup-continue-btn" type="button" class="btn btn-primary">continue</button>
+    </div>
+  </div>
+
+  <script>
+    window.QUIZ_QUESTIONS = {{ quiz_questions | tojson }};
+    window.HAS_VARSHINI_PHOTO = {{ has_varshini_photo | tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
